@@ -2,20 +2,30 @@
   "name": "toggle-explorer-gitignore",
   "description": "",
   "version": "1.0.0",
-  "activationEvents": [ ],
+  "activationEvents": [
+    "*"
+  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "toggle-explorer-gitignore.helloWorld",
-        "title": "Hello World"
+        "command": "toggle-explorer-gitignore.toggle",
+        "title": "Toggle showing ignored files"
+      },
+      {
+        "command": "toggle-explorer-gitignore.hide",
+        "title": "Hide Git-ignored files"
+      },
+      {
+        "command": "toggle-explorer-gitignore.show",
+        "title": "Show Git-ignored files"
       }
     ]
   },
-  "scripts": {
-    "lint": "eslint ."
+  "devDependencies": {
+    "prettier": "^2.8.8"
   },
   "engines": {
-    "vscode": "^1.78.0"
+    "vscode": "^1.73.0"
   }
 }

@@ -1,36 +1,29 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-const vscode = require('vscode');
+const vscode = require('vscode')
+const { registerCommand } = vscode.commands
+const { getConfiguration } = vscode.workspace
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+const configKey = 'excludeGitIgnore'
+const namespace = 'toggle-explorer-gitignore'
 
-/**
- * @param {vscode.ExtensionContext} context
- */
-function activate(context) {
+const activate = ({ subscriptions }) => {
+  let toggleCommand = registerCommand(`${namespace}.toggle`, () => {
+    const config = getConfiguration('explorer')
+    const currentValue = config.get(configKey)
+    const newValue = currentValue ? undefined : true
+    config.update(configKey, newValue, true)
+  })
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "toggle-explorer-gitignore" is now active!');
+  let hideCommand = registerCommand(`${namespace}.hide`, () => {
+    getConfiguration('explorer').update(configKey, true, true)
+  })
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('toggle-explorer-gitignore.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
+  let showCommand = registerCommand(`${namespace}.show`, () => {
+    getConfiguration('explorer').update(configKey, undefined, true)
+  })
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from toggle-explorer-gitignore!');
-	});
-
-	context.subscriptions.push(disposable);
+  subscriptions.push(toggleCommand)
+  subscriptions.push(hideCommand)
+  subscriptions.push(showCommand)
 }
 
-// This method is called when your extension is deactivated
-function deactivate() {}
-
-module.exports = {
-	activate,
-	deactivate
-}
+module.exports = { activate, deactivate: () => {} }
