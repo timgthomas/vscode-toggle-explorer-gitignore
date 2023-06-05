@@ -3,7 +3,7 @@ const { registerCommand } = vscode.commands
 const { getConfiguration } = vscode.workspace
 
 const configKey = 'excludeGitIgnore'
-const namespace = 'toggle-explorer-gitignore'
+const namespace = 'explorer-gitignore'
 
 const activate = ({ subscriptions }) => {
   let toggleCommand = registerCommand(`${namespace}.toggle`, () => {

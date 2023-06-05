@@ -1,7 +1,8 @@
 {
-  "name": "toggle-explorer-gitignore",
-  "description": "",
-  "version": "1.0.0",
+  "name": "explorer-gitignore",
+  "displayName": "Explorer Gitignore Toggle",
+  "description": "Quickly show and hide Git-ignored files in Explorer",
+  "version": "0.1.0",
   "activationEvents": [
     "*"
   ],
@@ -9,20 +10,21 @@
   "contributes": {
     "commands": [
       {
-        "command": "toggle-explorer-gitignore.toggle",
+        "command": "explorer-gitignore.toggle",
         "title": "Toggle showing ignored files"
       },
       {
-        "command": "toggle-explorer-gitignore.hide",
+        "command": "explorer-gitignore.hide",
         "title": "Hide Git-ignored files"
       },
       {
-        "command": "toggle-explorer-gitignore.show",
+        "command": "explorer-gitignore.show",
         "title": "Show Git-ignored files"
       }
     ]
   },
   "devDependencies": {
+    "@vscode/vsce": "^2.19.0",
     "prettier": "^2.8.8"
   },
   "engines": {
