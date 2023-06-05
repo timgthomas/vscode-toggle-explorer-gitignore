@@ -1,36 +1,21 @@
 {
   "name": "toggle-explorer-gitignore",
-  "displayName": "toggle-explorer-gitignore",
   "description": "",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.78.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [],
+  "version": "1.0.0",
+  "activationEvents": [ ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "toggle-explorer-gitignore.helloWorld",
-      "title": "Hello World"
-    }]
+    "commands": [
+      {
+        "command": "toggle-explorer-gitignore.helloWorld",
+        "title": "Hello World"
+      }
+    ]
   },
   "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "node ./test/runTest.js"
+    "lint": "eslint ."
   },
-  "devDependencies": {
-    "@types/vscode": "^1.78.0",
-    "@types/glob": "^8.1.0",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "20.2.5",
-    "eslint": "^8.41.0",
-    "glob": "^8.1.0",
-    "mocha": "^10.2.0",
-    "typescript": "^5.1.3",
-    "@vscode/test-electron": "^2.3.2"
+  "engines": {
+    "vscode": "^1.78.0"
   }
 }
