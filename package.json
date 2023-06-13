@@ -3,6 +3,12 @@
   "displayName": "Explorer Gitignore Toggle",
   "description": "Quickly show and hide Git-ignored files in Explorer",
   "version": "0.1.0",
+  "author": "Tim G. Thomas <github@timgthomas.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timgthomas/vscode-toggle-explorer-gitignore.git"
+  },
+  "license": "MIT",
   "activationEvents": [
     "*"
   ],
