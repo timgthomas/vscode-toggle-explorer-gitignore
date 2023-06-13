@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "activationEvents": [
-    "*"
+    "onStartupFinished"
   ],
   "main": "./extension.js",
   "contributes": {
