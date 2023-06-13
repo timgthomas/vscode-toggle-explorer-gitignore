@@ -2,7 +2,7 @@
   "name": "explorer-gitignore",
   "displayName": "Explorer `.gitignore` Toggle",
   "description": "Quickly show and hide Git-ignored files in Explorer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Tim G. Thomas <github@timgthomas.com>",
   "publisher": "timgthomas",
   "repository": {
