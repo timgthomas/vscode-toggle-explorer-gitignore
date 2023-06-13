@@ -10,7 +10,11 @@
     "url": "https://github.com/timgthomas/vscode-toggle-explorer-gitignore.git"
   },
   "license": "MIT",
+  "icon": "logo.png",
   "activationEvents": [
+    "onCommand:explorer-gitignore.toggle",
+    "onCommand:explorer-gitignore.hide",
+    "onCommand:explorer-gitignore.show",
     "onStartupFinished"
   ],
   "main": "./extension.js",
@@ -30,6 +34,13 @@
       }
     ]
   },
+  "keybindings": [
+    {
+      "command": "explorer-gitignore.toggle",
+      "key": "shift+ctrl+i",
+      "mac": "shift+cmd+i"
+    }
+  ],
   "devDependencies": {
     "@vscode/vsce": "^2.19.0",
     "prettier": "^2.8.8"
