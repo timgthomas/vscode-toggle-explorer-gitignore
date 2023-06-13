@@ -9,6 +9,9 @@
     "type": "git",
     "url": "https://github.com/timgthomas/vscode-toggle-explorer-gitignore.git"
   },
+  "scripts": {
+    "pub": "vsce publish"
+  },
   "license": "MIT",
   "icon": "logo.png",
   "activationEvents": [
