@@ -29,13 +29,29 @@
       },
       {
         "command": "explorer-gitignore.hide",
-        "title": "Hide Git-ignored files"
+        "title": "Hide Git-ignored files",
+        "icon": "$(eye-closed)"
       },
       {
         "command": "explorer-gitignore.show",
-        "title": "Show Git-ignored files"
+        "title": "Show Git-ignored files",
+        "icon": "$(eye)"
       }
-    ]
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "explorer-gitignore.show",
+          "group": "navigation@21",
+          "when": "view == 'workbench.explorer.fileView' && explorer-gitignore.toggled"
+        },
+        {
+          "command": "explorer-gitignore.hide",
+          "group": "navigation@21",
+          "when": "view == 'workbench.explorer.fileView' && !explorer-gitignore.toggled"
+        }
+      ]
+    }
   },
   "keybindings": [
     {
