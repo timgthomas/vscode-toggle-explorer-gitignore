@@ -6,41 +6,46 @@ const configKey = 'excludeGitIgnore'
 const namespace = 'explorer-gitignore'
 
 const activate = ({ subscriptions }) => {
-  let toggleCommand = registerCommand(`${namespace}.toggle`, () => {
+  let toggleCommand = registerCommand(`${namespace}.toggle`, (value) => {
     const config = getConfiguration('explorer')
-    const currentValue = config.get(configKey)
-    const newValue = currentValue ? undefined : true
-    config.update(configKey, newValue, true)
-    setContext(newValue)
+    const isGlobal = config.inspect(configKey).workspaceValue === undefined
+
+    if (value === undefined) {
+      value = config.get(configKey) ? false : true  
+    }
+
+    if (!value && isGlobal) { 
+      //Use undefined only global setting, otherwise it removes the setting and it wont restore to the workspace when toggled back
+      value = undefined
+    }
+
+    config.update(configKey, value, isGlobal)
+    setContext(value)
   })
 
   let hideCommand = registerCommand(`${namespace}.hide`, () => {
-    getConfiguration('explorer').update(configKey, true, true)
-    setContext(true)
+    vscode.commands.executeCommand(`${namespace}.toggle`,  true)
   })
 
   let showCommand = registerCommand(`${namespace}.show`, () => {
-    getConfiguration('explorer').update(configKey, undefined, true)
-    setContext(undefined)
+    vscode.commands.executeCommand(`${namespace}.toggle`,  false)
   })
 
   let setContext = (state) => { 
-    vscode.commands.executeCommand('setContext', `${namespace}.toggled`, state)
+    vscode.commands.executeCommand('setContext', `${namespace}.hidden`, state)
   }
 
   const config = getConfiguration('explorer')
-  setContext(config.get(configKey) || undefined);
+  setContext(config.get(configKey));
 
-  subscriptions.push(vscode.Disposable.from(
-      vscode.workspace.onDidChangeConfiguration((e) => {
-        if (e.affectsConfiguration(`explorer.${configKey}`)) {
-          const config = getConfiguration('explorer')
-          setContext(config.get(configKey) || undefined);
-        }
-      })
-    )
+  subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration((e) => {
+      if (e.affectsConfiguration(`explorer.${configKey}`)) {
+        const config = getConfiguration('explorer')
+        setContext(config.get(configKey));
+      }
+    })
   )
-
 
   subscriptions.push(toggleCommand)
   subscriptions.push(hideCommand)
