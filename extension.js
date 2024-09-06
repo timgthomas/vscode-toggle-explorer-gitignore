@@ -9,18 +9,19 @@ const activate = ({ subscriptions }) => {
   let toggleCommand = registerCommand(`${namespace}.toggle`, (value) => {
     const config = getConfiguration('explorer')
     const isGlobal = config.inspect(configKey).workspaceValue === undefined
+    let newValue = value
 
-    if (value === undefined) {
-      value = config.get(configKey) ? false : true  
+    if (newValue === undefined) {
+      newValue = config.get(configKey) ? false : true  
     }
 
-    if (!value && isGlobal) { 
-      //Use undefined only global setting, otherwise it removes the setting and it wont restore to the workspace when toggled back
-      value = undefined
+    if (!newValue && isGlobal) { 
+      // Use undefined only global setting, otherwise it removes the setting and it won't restore to the workspace when toggled back
+      newValue = undefined
     }
 
-    config.update(configKey, value, isGlobal)
-    setContext(value)
+    config.update(configKey, newValue, isGlobal)
+    setContext(newValue)
   })
 
   let hideCommand = registerCommand(`${namespace}.hide`, () => {
