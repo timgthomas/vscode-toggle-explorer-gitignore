@@ -1,0 +1,115 @@
+name: Publish extension
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      registry:
+        description: Registry to publish to
+        required: true
+        default: open-vsx
+        type: choice
+        options:
+          - open-vsx
+          - marketplace
+          - both
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    name: Package VSIX
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out release source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate tag version
+        if: github.ref_type == 'tag'
+        shell: bash
+        run: |
+          expected="v$(node -p "require('./package.json').version")"
+          if [[ "$GITHUB_REF_NAME" != "$expected" ]]; then
+            echo "Tag $GITHUB_REF_NAME does not match package version $expected" >&2
+            exit 1
+          fi
+
+      - name: Package extension
+        run: npm run package
+
+      - name: Upload VSIX
+        uses: actions/upload-artifact@v4
+        with:
+          name: explorer-gitignore-vsix
+          path: explorer-gitignore.vsix
+          if-no-files-found: error
+          retention-days: 7
+
+  publish-open-vsx:
+    name: Publish to Open VSX
+    needs: package
+    if: github.event_name == 'push' || inputs.registry == 'open-vsx' || inputs.registry == 'both'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out release source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download VSIX
+        uses: actions/download-artifact@v4
+        with:
+          name: explorer-gitignore-vsix
+
+      - name: Publish extension
+        run: npm run publish:openvsx
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+
+  publish-marketplace:
+    name: Publish to Visual Studio Marketplace
+    needs: package
+    if: github.event_name == 'push' || inputs.registry == 'marketplace' || inputs.registry == 'both'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out release source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download VSIX
+        uses: actions/download-artifact@v4
+        with:
+          name: explorer-gitignore-vsix
+
+      - name: Publish extension
+        run: npm run publish:marketplace

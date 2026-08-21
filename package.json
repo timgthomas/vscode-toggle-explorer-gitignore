@@ -2,7 +2,7 @@
   "name": "explorer-gitignore",
   "displayName": "Explorer `.gitignore` Toggle",
   "description": "Quickly show and hide Git-ignored files in Explorer",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "author": "Tim G. Thomas <github@timgthomas.com>",
   "publisher": "timgthomas",
   "repository": {
@@ -10,7 +10,9 @@
     "url": "https://github.com/timgthomas/vscode-toggle-explorer-gitignore.git"
   },
   "scripts": {
-    "pub": "vsce publish"
+    "package": "vsce package --out explorer-gitignore.vsix",
+    "publish:marketplace": "vsce publish --packagePath explorer-gitignore.vsix --oidc --skip-duplicate",
+    "publish:openvsx": "ovsx publish explorer-gitignore.vsix --skip-duplicate"
   },
   "license": "MIT",
   "icon": "logo.png",
@@ -61,8 +63,9 @@
     }
   ],
   "devDependencies": {
-    "@vscode/vsce": "^2.19.0",
-    "prettier": "^2.8.8"
+    "@vscode/vsce": "3.9.2",
+    "ovsx": "1.1.1",
+    "prettier": "2.8.8"
   },
   "engines": {
     "vscode": "^1.73.0"
